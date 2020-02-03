@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">ShoppingList</string>
+
+    <!--Fragment navigation-->
+    <string name="back_button_press">Please click BACK again to exit!</string>
+
+    <!--Add new shopping list-->
+    <string name="enter_title">Enter shopping list title</string>
+    <string name="name_fail">You have to enter at least 4 characters</string>
+    <string name="list_added">List added</string>
+
+    <!--Login-->
+    <string name="login">Login</string>
+    <string name="enter_name">Enter your name</string>
+    <string name="remember_me">Remember me</string>
+    <string name="auto_login">Auto login</string>
+    <string name="edited">Edited</string>
+
+    <!--add list element dialog-->
+    <string name="enter_element">Enter element name</string>
+    <string name="list_element_added">List element added</string>
+</resources>
