@@ -17,8 +17,11 @@ import com.example.shoppinglist.R;
 import com.example.shoppinglist.interfaces.OnItemClickListener;
 import com.example.shoppinglist.model.Lists;
 import com.example.shoppinglist.utils.Constant;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
@@ -62,6 +65,22 @@ public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.MyViewHolder
                         DatabaseReference mRef = mDatabase.getReference(Constant.LISTS);
                         switch (menuItem.getItemId()) {
                             case R.id.delete:
+                                final DatabaseReference mRef2 = mDatabase.getReference(Constant.LIST_ELEMENTS);
+                                mRef2.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        for (DataSnapshot snapshot: dataSnapshot.getChildren()){
+                                            if (snapshot.child(Constant.LIST_ID).getValue().toString().equals(lists.get(position).getsID())){
+                                                mRef2.child(snapshot.child(Constant.ID).getValue().toString()).removeValue();
+                                            }
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
                                 mRef.child(lists.get(position).getsID()).removeValue();
                                 lists.remove(position);
                                 notifyDataSetChanged();

@@ -20,6 +20,8 @@ import com.example.shoppinglist.utils.Constant;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class ElementsAdapter extends RecyclerView.Adapter<ElementsAdapter.MyViewHolder> {
@@ -50,8 +52,11 @@ public class ElementsAdapter extends RecyclerView.Adapter<ElementsAdapter.MyView
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
                 DatabaseReference mRef = mDatabase.getReference(Constant.LIST_ELEMENTS);
+                DatabaseReference mRef2 = mDatabase.getReference(Constant.LISTS);
                 mRef.child(elementsList.get(position).getsID()).child(Constant.bChecked).setValue(b);
                 elementsList.get(position).setbChecked(b);
+                Date date = Calendar.getInstance().getTime();
+                mRef2.child(Constant.SELECTED_LIST.getsID()).child(Constant.LAST_EDIT).setValue(String.valueOf(date));
                 mHolder.cbElement.setChecked(b);
             }
         });

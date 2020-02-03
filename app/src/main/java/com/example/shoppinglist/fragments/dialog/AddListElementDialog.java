@@ -22,11 +22,14 @@ import com.example.shoppinglist.utils.Constant;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Calendar;
+import java.util.Date;
+
 public class AddListElementDialog extends AppCompatDialogFragment {
     public static final String TAG = AddListElementDialog.class.getSimpleName();
 
     private FirebaseDatabase mDatabase;
-    private DatabaseReference mRef;
+    private DatabaseReference mRef, mRef2;
     private EditText etListElementTitle;
     private AddListElementDialogListener listener;
 
@@ -54,12 +57,15 @@ public class AddListElementDialog extends AppCompatDialogFragment {
             public void onClick(DialogInterface dialogInterface, int i) {
                 mDatabase = FirebaseDatabase.getInstance();
                 mRef = mDatabase.getReference(Constant.LIST_ELEMENTS);
+                mRef2 = mDatabase.getReference(Constant.LISTS);
                 String title = etListElementTitle.getText().toString();
                 if (isTextLengthOk(title)){
                     String ID = mRef.push().getKey();
                     Elements elements = new Elements(ID, title, Constant.SELECTED_LIST.getsID(), false);
                     listener.addListElement(elements);
                     mRef.child(ID).setValue(elements);
+                    Date date = Calendar.getInstance().getTime();
+                    mRef2.child(Constant.SELECTED_LIST.getsID()).child(Constant.LAST_EDIT).setValue(String.valueOf(date));
                     Toast.makeText(getContext(), R.string.list_element_added, Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getContext(),R.string.name_fail, Toast.LENGTH_SHORT).show();
