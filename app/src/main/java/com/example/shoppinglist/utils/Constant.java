@@ -13,6 +13,7 @@ public class Constant {
     public static final String AUTO_LOGIN = "auto_login";
     public static final String LIST_ID = "sListID";
     public static final String ELEMENT_NAME = "sName";
+    public static final CharSequence LOADING = "Loading...";
     public static String CURRENT_USER;
     public static final String LIST_ELEMENTS = "list_elements";
     public static final String ID = "sID";

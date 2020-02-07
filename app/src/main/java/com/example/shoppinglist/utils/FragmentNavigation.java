@@ -77,7 +77,7 @@ public class FragmentNavigation extends Fragment {
         }
 
         if( getCurrentFragment(mMainActivityFragmentContainer) instanceof ListsFragment) {
-            popBackStack();
+            System.exit(0);
             return;
         }
 

@@ -7,8 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -60,27 +62,14 @@ public class ElementsAdapter extends RecyclerView.Adapter<ElementsAdapter.MyView
                 mHolder.cbElement.setChecked(b);
             }
         });
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+        holder.ivDelete.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View view) {
-                PopupMenu popupMenu = new PopupMenu(context, holder.itemView);
-                popupMenu.inflate(R.menu.popup_menu);
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem menuItem) {
-                        FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
-                        DatabaseReference mRef = mDatabase.getReference(Constant.LIST_ELEMENTS);
-                        switch (menuItem.getItemId()) {
-                            case R.id.delete:
-                                mRef.child(elementsList.get(position).getsID()).removeValue();
-                                elementsList.remove(position);
-                                notifyDataSetChanged();
-                                break;
-                        }
-                        return false;
-                    }
-                });
-                return true;
+            public void onClick(View view) {
+                FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
+                DatabaseReference mRef = mDatabase.getReference(Constant.LIST_ELEMENTS);
+                mRef.child(elementsList.get(position).getsID()).removeValue();
+                elementsList.remove(position);
+                notifyDataSetChanged();
             }
         });
         holder.cbElement.setText(elementsList.get(position).getsName());
@@ -94,10 +83,12 @@ public class ElementsAdapter extends RecyclerView.Adapter<ElementsAdapter.MyView
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
         public CheckBox cbElement;
+        public ImageView ivDelete;
 
         public MyViewHolder(@NonNull View itemView, final OnItemClickListener listener){
             super(itemView);
             cbElement = itemView.findViewById(R.id.checkBox_element);
+            ivDelete = itemView.findViewById(R.id.imageView_delete);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

@@ -6,7 +6,7 @@
 
     <!--Add new shopping list-->
     <string name="enter_title">Enter shopping list title</string>
-    <string name="name_fail">You have to enter at least 4 characters</string>
+    <string name="name_fail">You have to enter at least 1 characters</string>
     <string name="list_added">List added</string>
 
     <!--Login-->

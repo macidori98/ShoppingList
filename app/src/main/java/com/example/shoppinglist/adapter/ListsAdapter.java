@@ -23,6 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.MyViewHolder>{
@@ -62,25 +63,35 @@ public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.MyViewHolder
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
-                        DatabaseReference mRef = mDatabase.getReference(Constant.LISTS);
+                        final DatabaseReference mRef = mDatabase.getReference(Constant.LISTS);
                         switch (menuItem.getItemId()) {
                             case R.id.delete:
-                                final DatabaseReference mRef2 = mDatabase.getReference(Constant.LIST_ELEMENTS);
+                                /*final DatabaseReference mRef2 = mDatabase.getReference(Constant.LIST_ELEMENTS);
                                 mRef2.addValueEventListener(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                        List<String> IDList = new ArrayList<>();
                                         for (DataSnapshot snapshot: dataSnapshot.getChildren()){
                                             if (snapshot.child(Constant.LIST_ID).getValue().toString().equals(lists.get(position).getsID())){
-                                                mRef2.child(snapshot.child(Constant.ID).getValue().toString()).removeValue();
+                                                //snapshot.getRef().removeValue();
+                                                IDList.add(snapshot.child(Constant.ID).getValue().toString());
+                                                //mRef2.child(snapshot.child(Constant.ID).getValue().toString()).removeValue();
                                             }
                                         }
+                                        for(int i = 0; i < IDList.size(); ++i){
+                                            mRef2.child(IDList.get(i)).removeValue();
+                                        }
+                                        mRef.child(lists.get(position).getsID()).removeValue();
+                                        lists.remove(position);
+                                        notifyDataSetChanged();
                                     }
 
                                     @Override
                                     public void onCancelled(@NonNull DatabaseError databaseError) {
 
                                     }
-                                });
+                                });*/
                                 mRef.child(lists.get(position).getsID()).removeValue();
                                 lists.remove(position);
                                 notifyDataSetChanged();

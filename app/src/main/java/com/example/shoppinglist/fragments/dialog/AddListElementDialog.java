@@ -75,7 +75,7 @@ public class AddListElementDialog extends AppCompatDialogFragment {
     }
 
     private boolean isTextLengthOk(String string){
-        if (string.length() >= 4 ){
+        if (string.length() >= 1 ){
             return true;
         }
         else {

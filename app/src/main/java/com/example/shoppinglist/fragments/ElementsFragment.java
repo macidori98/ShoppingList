@@ -1,10 +1,12 @@
 package com.example.shoppinglist.fragments;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.service.autofill.Dataset;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -60,7 +62,11 @@ public class ElementsFragment extends Fragment implements AddListElementDialogLi
                 addElement();
             }
         });
-
+        final ProgressDialog dialog = new ProgressDialog(getContext());
+        dialog.setMessage(Constant.LOADING);
+        dialog.setCancelable(false);
+        dialog.setInverseBackgroundForced(false);
+        dialog.show();
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -96,6 +102,13 @@ public class ElementsFragment extends Fragment implements AddListElementDialogLi
                     }
                 });
                 rvElements.setAdapter(elementsAdapter);
+                rvElements.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        dialog.hide();
+                        rvElements.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    }
+                });
             }
 
             @Override
